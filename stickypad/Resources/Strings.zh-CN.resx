@@ -1,0 +1,700 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Settings_WindowTitle" xml:space="preserve">
+    <value>纸间 · 设置</value>
+  </data>
+  <data name="Settings_AutoStart" xml:space="preserve">
+    <value>开机自动启动</value>
+  </data>
+  <data name="Settings_AutoUpdate" xml:space="preserve">
+    <value>自动检查更新</value>
+  </data>
+  <data name="Settings_GlobalHotkeys" xml:space="preserve">
+    <value>启用全局快捷键</value>
+  </data>
+  <data name="Settings_NewNoteLabel" xml:space="preserve">
+    <value>新建便签</value>
+  </data>
+  <data name="Settings_NotesListLabel" xml:space="preserve">
+    <value>全部便签</value>
+  </data>
+  <data name="Settings_HotkeyHint" xml:space="preserve">
+    <value>点击输入框，然后按下组合键，例如 Ctrl+Shift+N。</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Settings_LanguageSystem" xml:space="preserve">
+    <value>跟随 Windows</value>
+  </data>
+  <data name="Settings_RestartNote" xml:space="preserve">
+    <value>更改语言后，重新启动应用生效。待办面板使用中文。</value>
+  </data>
+  <data name="Settings_HotkeyInvalidNewNote" xml:space="preserve">
+    <value>新建便签快捷键无效，请使用修饰键加普通按键。</value>
+  </data>
+  <data name="Settings_HotkeyInvalidList" xml:space="preserve">
+    <value>全部便签快捷键无效，请使用修饰键加普通按键。</value>
+  </data>
+  <data name="Settings_Storage" xml:space="preserve">
+    <value>便签存储方式</value>
+  </data>
+  <data name="Settings_StorageLiteDb" xml:space="preserve">
+    <value>本地数据库（默认）</value>
+  </data>
+  <data name="Settings_StorageVault" xml:space="preserve">
+    <value>文件夹（Markdown 文件）</value>
+  </data>
+  <data name="Settings_BrowseVault" xml:space="preserve">
+    <value>选择文件夹…</value>
+  </data>
+  <data name="Settings_VaultFolderDialogTitle" xml:space="preserve">
+    <value>选择便签文件夹</value>
+  </data>
+  <data name="Settings_VaultPathRequired" xml:space="preserve">
+    <value>请先选择便签文件夹。</value>
+  </data>
+  <data name="NoteList_WindowTitle" xml:space="preserve">
+    <value>纸间 · 全部便签</value>
+  </data>
+  <data name="NoteList_Title" xml:space="preserve">
+    <value>全部便签</value>
+  </data>
+  <data name="NoteList_TotalFormat" xml:space="preserve">
+    <value>共 {0} 张</value>
+  </data>
+  <data name="NoteList_Export" xml:space="preserve">
+    <value>导出 ▾</value>
+  </data>
+  <data name="NoteList_ExportTooltip" xml:space="preserve">
+    <value>导出选中的便签；未选中时导出当前列表</value>
+  </data>
+  <data name="NoteList_ExportHtml" xml:space="preserve">
+    <value>导出为 HTML…</value>
+  </data>
+  <data name="NoteList_ExportPdf" xml:space="preserve">
+    <value>导出为 PDF…</value>
+  </data>
+  <data name="NoteList_ExportMarkdownFiles" xml:space="preserve">
+    <value>导出为 Markdown 文件…</value>
+  </data>
+  <data name="NoteList_NewNote" xml:space="preserve">
+    <value>＋ 新建便签</value>
+  </data>
+  <data name="NoteList_SelectedFormat" xml:space="preserve">
+    <value>已选 {0} 张</value>
+  </data>
+  <data name="NoteList_SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="NoteList_ClearSelection" xml:space="preserve">
+    <value>取消选择</value>
+  </data>
+  <data name="Bulk_Actions" xml:space="preserve">
+    <value>批量操作</value>
+  </data>
+  <data name="Bulk_DeleteSelected" xml:space="preserve">
+    <value>删除选中便签</value>
+  </data>
+  <data name="Bulk_ChangeColor" xml:space="preserve">
+    <value>更换颜色</value>
+  </data>
+  <data name="Bulk_DeleteConfirmFormat" xml:space="preserve">
+    <value>将选中的 {0} 张便签移入回收站？</value>
+  </data>
+  <data name="NoteList_TabActive" xml:space="preserve">
+    <value>便签</value>
+  </data>
+  <data name="NoteList_TabTrash" xml:space="preserve">
+    <value>回收站</value>
+  </data>
+  <data name="NoteList_TabTodos" xml:space="preserve">
+    <value>文内清单</value>
+  </data>
+  <data name="NoteList_EmptyTrashButton" xml:space="preserve">
+    <value>清空回收站</value>
+  </data>
+  <data name="NoteList_SelectForExportTooltip" xml:space="preserve">
+    <value>选中以导出</value>
+  </data>
+  <data name="NoteList_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="NoteList_Restore" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="NoteList_PurgePermanently" xml:space="preserve">
+    <value>永久删除</value>
+  </data>
+  <data name="NoteList_DeletedAtFormat" xml:space="preserve">
+    <value>删除于 {0:g}</value>
+  </data>
+  <data name="NoteList_ClearTagFilter" xml:space="preserve">
+    <value>清除标签筛选</value>
+  </data>
+  <data name="NoteList_TagFilterFormat" xml:space="preserve">
+    <value>标签：#{0}</value>
+  </data>
+  <data name="NoteList_FooterHint" xml:space="preserve">
+    <value>Ctrl+Shift+L 打开列表 · Esc 关闭</value>
+  </data>
+  <data name="NoteList_EmptyTrash" xml:space="preserve">
+    <value>回收站是空的。</value>
+  </data>
+  <data name="NoteList_EmptyNoNotes" xml:space="preserve">
+    <value>还没有便签，写下你的第一条想法吧。</value>
+  </data>
+  <data name="NoteList_EmptyNoMatch" xml:space="preserve">
+    <value>没有找到符合条件的便签。</value>
+  </data>
+  <data name="NoteList_Untitled" xml:space="preserve">
+    <value>未命名便签</value>
+  </data>
+  <data name="Todo_HideCompleted" xml:space="preserve">
+    <value>隐藏已完成</value>
+  </data>
+  <data name="Todo_EmptyMessage" xml:space="preserve">
+    <value>便签中还没有 Markdown 清单（- [ ]）。定时待办请从托盘打开「待办与提醒」。</value>
+  </data>
+  <data name="Todo_GroupCountFormat" xml:space="preserve">
+    <value>已完成 {0}/{1}</value>
+  </data>
+  <data name="Tray_Tooltip" xml:space="preserve">
+    <value>纸间 · 便签与待办</value>
+  </data>
+  <data name="Tray_NewNote" xml:space="preserve">
+    <value>新建便签（Ctrl+Shift+N）</value>
+  </data>
+  <data name="Tray_NewFromTemplate" xml:space="preserve">
+    <value>从模板新建</value>
+  </data>
+  <data name="Tray_OpenMarkdownFile" xml:space="preserve">
+    <value>打开 Markdown 文件…</value>
+  </data>
+  <data name="Tray_OpenMarkdownDialogTitle" xml:space="preserve">
+    <value>打开 Markdown / 文本文件</value>
+  </data>
+  <data name="Tray_AllNotes" xml:space="preserve">
+    <value>全部便签（Ctrl+Shift+L）</value>
+  </data>
+  <data name="Tray_TodoView" xml:space="preserve">
+    <value>便签中的勾选清单</value>
+  </data>
+  <data name="Tray_QuickSwitcher" xml:space="preserve">
+    <value>快速切换便签…</value>
+  </data>
+  <data name="Tray_Settings" xml:space="preserve">
+    <value>设置…</value>
+  </data>
+  <data name="Tray_ShowAll" xml:space="preserve">
+    <value>显示全部便签</value>
+  </data>
+  <data name="Tray_HideAll" xml:space="preserve">
+    <value>隐藏全部便签</value>
+  </data>
+  <data name="Tray_ExportBackup" xml:space="preserve">
+    <value>导出便签备份…</value>
+  </data>
+  <data name="Tray_ImportBackup" xml:space="preserve">
+    <value>导入便签备份…</value>
+  </data>
+  <data name="Tray_ExportNotesAsText" xml:space="preserve">
+    <value>导出便签为文本…</value>
+  </data>
+  <data name="Tray_CheckForUpdates" xml:space="preserve">
+    <value>关于此版本…</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>退出纸间</value>
+  </data>
+  <data name="Note_WindowTitle" xml:space="preserve">
+    <value>纸间 · 便签</value>
+  </data>
+  <data name="Note_ChangeColor" xml:space="preserve">
+    <value>更换便签颜色</value>
+  </data>
+  <data name="Note_ModeText" xml:space="preserve">
+    <value>富文本</value>
+  </data>
+  <data name="Note_ModeMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="Note_ModeHtml" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Note_PreviewToggle" xml:space="preserve">
+    <value>预览 / 编辑（Ctrl+E）</value>
+  </data>
+  <data name="Note_WysiwygToggle" xml:space="preserve">
+    <value>所见即所得编辑（Markdown）</value>
+  </data>
+  <data name="Note_WysiwygUnavailable" xml:space="preserve">
+    <value>无法启动可视化编辑器，已切换到源码模式。（{0}）</value>
+  </data>
+  <data name="Note_AlwaysOnTop" xml:space="preserve">
+    <value>置顶显示</value>
+  </data>
+  <data name="Note_OpenFile" xml:space="preserve">
+    <value>打开文本文件（Ctrl+O）</value>
+  </data>
+  <data name="Note_NewNote" xml:space="preserve">
+    <value>新建便签（Ctrl+Shift+N）</value>
+  </data>
+  <data name="Note_AllNotes" xml:space="preserve">
+    <value>全部便签（Ctrl+Shift+L）</value>
+  </data>
+  <data name="Note_More" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="Note_NewFromTemplate" xml:space="preserve">
+    <value>从模板新建</value>
+  </data>
+  <data name="Note_ExportPrintTooltip" xml:space="preserve">
+    <value>导出 / 打印</value>
+  </data>
+  <data name="Note_ExportPdfMenu" xml:space="preserve">
+    <value>另存为 PDF…</value>
+  </data>
+  <data name="Note_ExportHtmlMenu" xml:space="preserve">
+    <value>另存为 HTML…</value>
+  </data>
+  <data name="Note_ExportMarkdownMenu" xml:space="preserve">
+    <value>另存为 Markdown…</value>
+  </data>
+  <data name="Note_PrintMenu" xml:space="preserve">
+    <value>打印…</value>
+  </data>
+  <data name="Note_DeleteNote" xml:space="preserve">
+    <value>删除便签</value>
+  </data>
+  <data name="Note_HideSaves" xml:space="preserve">
+    <value>隐藏便签（自动保存）</value>
+  </data>
+  <data name="Note_Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Note_FontSize" xml:space="preserve">
+    <value>字号</value>
+  </data>
+  <data name="Note_Bold" xml:space="preserve">
+    <value>加粗（Ctrl+B）</value>
+  </data>
+  <data name="Note_Italic" xml:space="preserve">
+    <value>斜体（Ctrl+I）</value>
+  </data>
+  <data name="Note_Underline" xml:space="preserve">
+    <value>下划线（Ctrl+U）</value>
+  </data>
+  <data name="Note_Strikethrough" xml:space="preserve">
+    <value>删除线（Ctrl+Shift+X）</value>
+  </data>
+  <data name="Note_AlignLeft" xml:space="preserve">
+    <value>左对齐（Ctrl+L）</value>
+  </data>
+  <data name="Note_AlignCenter" xml:space="preserve">
+    <value>居中</value>
+  </data>
+  <data name="Note_AlignRight" xml:space="preserve">
+    <value>右对齐（Ctrl+R）</value>
+  </data>
+  <data name="Note_BulletedList" xml:space="preserve">
+    <value>项目符号</value>
+  </data>
+  <data name="Note_NumberedList" xml:space="preserve">
+    <value>编号列表</value>
+  </data>
+  <data name="Note_InsertTask" xml:space="preserve">
+    <value>插入勾选项（☐）</value>
+  </data>
+  <data name="Note_InlineCode" xml:space="preserve">
+    <value>行内代码</value>
+  </data>
+  <data name="Note_CodeBlock" xml:space="preserve">
+    <value>代码块</value>
+  </data>
+  <data name="Note_ClearFormatting" xml:space="preserve">
+    <value>清除格式</value>
+  </data>
+  <data name="Note_OpenFileError" xml:space="preserve">
+    <value>无法打开文件：
+{0}</value>
+  </data>
+  <data name="Note_FileChangedPrompt" xml:space="preserve">
+    <value>此文件已被其他程序修改。
+是否从磁盘重新加载？
+
+选择「是」会以磁盘文件替换当前编辑；选择「否」保留当前编辑，下次保存时覆盖文件。</value>
+  </data>
+  <data name="Note_FileChangedTitle" xml:space="preserve">
+    <value>纸间 · 文件已更改</value>
+  </data>
+  <data name="Note_PreviewError" xml:space="preserve">
+    <value>无法显示预览，可能需要安装 WebView2 运行时。
+
+{0}</value>
+  </data>
+  <data name="Note_DeleteLinkedConfirm" xml:space="preserve">
+    <value>将此关联便签移入回收站？
+原始文件（{0}）会保留。</value>
+  </data>
+  <data name="Note_DeleteConfirm" xml:space="preserve">
+    <value>将此便签移入回收站？可以在全部便签中恢复。</value>
+  </data>
+  <data name="Note_OpenLinkError" xml:space="preserve">
+    <value>无法打开链接：
+{0}</value>
+  </data>
+  <data name="Note_NoteNotFound" xml:space="preserve">
+    <value>找不到标题为「{0}」的便签。</value>
+  </data>
+  <data name="Note_ExportError" xml:space="preserve">
+    <value>导出失败：
+{0}</value>
+  </data>
+  <data name="Note_PrintError" xml:space="preserve">
+    <value>打印失败：
+{0}</value>
+  </data>
+  <data name="Note_FileNotFoundFormat" xml:space="preserve">
+    <value>找不到文件：
+{0}</value>
+  </data>
+  <data name="Export_DocumentTitle" xml:space="preserve">
+    <value>纸间便签</value>
+  </data>
+  <data name="Export_MetaFormat" xml:space="preserve">
+    <value>导出于 {0} · 共 {1} 张便签</value>
+  </data>
+  <data name="Export_HtmlFilter" xml:space="preserve">
+    <value>HTML 文档 (*.html)|*.html</value>
+  </data>
+  <data name="Export_HtmlDialogTitle" xml:space="preserve">
+    <value>导出为 HTML</value>
+  </data>
+  <data name="Export_HtmlFailedFormat" xml:space="preserve">
+    <value>HTML 导出失败。
+
+{0}</value>
+  </data>
+  <data name="Export_HtmlSavedFormat" xml:space="preserve">
+    <value>已保存 HTML。
+{0}</value>
+  </data>
+  <data name="Export_PdfFilter" xml:space="preserve">
+    <value>PDF 文档 (*.pdf)|*.pdf</value>
+  </data>
+  <data name="Export_PdfDialogTitle" xml:space="preserve">
+    <value>导出为 PDF</value>
+  </data>
+  <data name="Export_PdfFailedFormat" xml:space="preserve">
+    <value>PDF 导出失败，请检查 WebView2 运行时。
+
+{0}</value>
+  </data>
+  <data name="Export_PdfSavedFormat" xml:space="preserve">
+    <value>已保存 PDF。
+{0}</value>
+  </data>
+  <data name="Export_MarkdownFilter" xml:space="preserve">
+    <value>Markdown (*.md)|*.md</value>
+  </data>
+  <data name="Export_MarkdownDialogTitle" xml:space="preserve">
+    <value>导出为 Markdown</value>
+  </data>
+  <data name="Export_MarkdownFailedFormat" xml:space="preserve">
+    <value>Markdown 导出失败。
+
+{0}</value>
+  </data>
+  <data name="Export_MarkdownSavedFormat" xml:space="preserve">
+    <value>已保存 Markdown。
+{0}</value>
+  </data>
+  <data name="Backup_NoNotesToExport" xml:space="preserve">
+    <value>没有可导出的便签。</value>
+  </data>
+  <data name="Backup_ChooseExportFolderTitle" xml:space="preserve">
+    <value>选择便签导出文件夹</value>
+  </data>
+  <data name="Backup_MarkdownFilesExportedFormat" xml:space="preserve">
+    <value>已导出 {0} 张便签为 Markdown。
+{1}</value>
+  </data>
+  <data name="Backup_MarkdownFilesPartialFailureFormat" xml:space="preserve">
+    <value>已保存 {0} 张，失败 {1} 张。
+失败文件：{2}</value>
+  </data>
+  <data name="Backup_HtmlExportedFormat" xml:space="preserve">
+    <value>已导出 {0} 张便签为 HTML。
+{1}</value>
+  </data>
+  <data name="Backup_PdfExportedFormat" xml:space="preserve">
+    <value>已导出 {0} 张便签为 PDF。
+{1}</value>
+  </data>
+  <data name="Backup_JsonFilter" xml:space="preserve">
+    <value>便签备份 (*.json)|*.json</value>
+  </data>
+  <data name="Backup_ExportDialogTitle" xml:space="preserve">
+    <value>导出便签备份（待办请在待办面板单独导出）</value>
+  </data>
+  <data name="Backup_TextExportFilter" xml:space="preserve">
+    <value>Markdown (*.md)|*.md|文本文件 (*.txt)|*.txt</value>
+  </data>
+  <data name="Backup_TextExportDialogTitle" xml:space="preserve">
+    <value>导出便签为文本</value>
+  </data>
+  <data name="Backup_JsonImportFilter" xml:space="preserve">
+    <value>便签备份 (*.json)|*.json|全部文件 (*.*)|*.*</value>
+  </data>
+  <data name="Backup_ImportDialogTitle" xml:space="preserve">
+    <value>导入便签备份</value>
+  </data>
+  <data name="Backup_ReadFailedFormat" xml:space="preserve">
+    <value>无法读取备份：
+{0}</value>
+  </data>
+  <data name="Backup_NoNotesInFile" xml:space="preserve">
+    <value>备份中没有便签。</value>
+  </data>
+  <data name="Backup_ImportConfirmFormat" xml:space="preserve">
+    <value>导入 {0} 张便签？相同编号的现有便签将被覆盖。</value>
+  </data>
+  <data name="Vault_Menu" xml:space="preserve">
+    <value>Markdown 文件夹</value>
+  </data>
+  <data name="Vault_Export" xml:space="preserve">
+    <value>导出到文件夹…</value>
+  </data>
+  <data name="Vault_Import" xml:space="preserve">
+    <value>从文件夹导入…</value>
+  </data>
+  <data name="Vault_ChooseExportFolder" xml:space="preserve">
+    <value>选择导出文件夹</value>
+  </data>
+  <data name="Vault_ChooseImportFolder" xml:space="preserve">
+    <value>选择导入文件夹</value>
+  </data>
+  <data name="Vault_ExportedFormat" xml:space="preserve">
+    <value>已导出 {0} 张便签。
+{1}</value>
+  </data>
+  <data name="Vault_ImportConfirmFormat" xml:space="preserve">
+    <value>从文件夹导入 {0} 张便签？相同编号的便签会更新。</value>
+  </data>
+  <data name="Vault_ImportedFormat" xml:space="preserve">
+    <value>已从文件夹导入 {0} 张便签。</value>
+  </data>
+  <data name="Vault_NoMarkdownFiles" xml:space="preserve">
+    <value>文件夹中没有 Markdown 文件。</value>
+  </data>
+  <data name="Vault_OpenInExplorer" xml:space="preserve">
+    <value>在资源管理器中打开</value>
+  </data>
+  <data name="Vault_OpenInObsidian" xml:space="preserve">
+    <value>在 Obsidian 中打开</value>
+  </data>
+  <data name="Vault_OpenInVsCode" xml:space="preserve">
+    <value>在 VS Code 中打开</value>
+  </data>
+  <data name="Vault_ConflictTitle" xml:space="preserve">
+    <value>发现文件同步冲突副本</value>
+  </data>
+  <data name="Vault_ConflictBodyFormat" xml:space="preserve">
+    <value>「{0}」可能是同步冲突副本，请检查其内容。</value>
+  </data>
+  <data name="Vault_ConflictManyFormat" xml:space="preserve">
+    <value>发现 {0} 个冲突副本：{1} 等</value>
+  </data>
+  <data name="Vault_NotesAddedFormat" xml:space="preserve">
+    <value>文件夹新增了 {0} 张便签。</value>
+  </data>
+  <data name="Vault_FileDeletedPrompt" xml:space="preserve">
+    <value>此便签对应的文件已被删除。
+要将当前编辑保存为新文件吗？</value>
+  </data>
+  <data name="Vault_FolderMissingFormat" xml:space="preserve">
+    <value>找不到便签文件夹：
+{0}</value>
+  </data>
+  <data name="Print_WindowTitle" xml:space="preserve">
+    <value>纸间 · 打印</value>
+  </data>
+  <data name="Print_PrepareFailedFormat" xml:space="preserve">
+    <value>准备打印失败。
+
+{0}</value>
+  </data>
+  <data name="Update_CheckFailed" xml:space="preserve">
+    <value>检查更新失败，请检查网络。</value>
+  </data>
+  <data name="Update_InfoUnreadable" xml:space="preserve">
+    <value>无法读取更新信息。</value>
+  </data>
+  <data name="Update_UpToDateFormat" xml:space="preserve">
+    <value>当前已是最新版本（v{0}.{1}.{2}）。</value>
+  </data>
+  <data name="Update_AssetNotFoundFormat" xml:space="preserve">
+    <value>有新版本 {0}，但没有找到下载文件。</value>
+  </data>
+  <data name="Update_AvailablePromptFormat" xml:space="preserve">
+    <value>发现新版本 {0}，现在更新吗？
+下载后会重新启动应用。</value>
+  </data>
+  <data name="Update_ConfirmCaption" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Update_DownloadFailed" xml:space="preserve">
+    <value>下载更新失败。</value>
+  </data>
+  <data name="Update_ExecutablePathUnknown" xml:space="preserve">
+    <value>无法确定程序路径，不能应用更新。</value>
+  </data>
+  <data name="Update_ApplyFailed" xml:space="preserve">
+    <value>应用更新失败。</value>
+  </data>
+  <data name="Update_IntegrityFailed" xml:space="preserve">
+    <value>更新文件校验失败，未应用更新。</value>
+  </data>
+  <data name="Template_DailyLog" xml:space="preserve">
+    <value>每日记录</value>
+  </data>
+  <data name="Template_Meeting" xml:space="preserve">
+    <value>会议记录</value>
+  </data>
+  <data name="Template_Todo" xml:space="preserve">
+    <value>勾选清单</value>
+  </data>
+  <data name="QuickSwitcher_Placeholder" xml:space="preserve">
+    <value>搜索便签标题或 #标签…</value>
+  </data>
+  <data name="QuickSwitcher_NoResults" xml:space="preserve">
+    <value>没有符合条件的便签</value>
+  </data>
+</root>

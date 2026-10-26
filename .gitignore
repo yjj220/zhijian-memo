@@ -1,0 +1,59 @@
+# ---- Build output ----
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+publish/
+*.dll
+*.exe
+*.pdb
+
+# ---- Visual Studio / Rider ----
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# ---- NuGet ----
+*.nupkg
+packages/
+project.lock.json
+project.assets.json
+
+# ---- Test / coverage ----
+[Tt]est[Rr]esult*/
+*.coverage
+*.coveragexml
+
+# ---- OS noise ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ---- App runtime data (never committed) ----
+*.db
+*.db-log
+settings.json
+tasks.json
+tasks.json.bak
+*.damaged-*
+logs/
+*.previous
+*.tmp
+
+# Local environment and editor build artifacts
+.env
+.env.*
+!.env.example
+node_modules/
+tools/mdeditor/dist/
+
+# ---- Secrets / signing (safety net; not used by this project today) ----
+*.jks
+*.keystore
+keystore.properties
+signing.properties

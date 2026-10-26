@@ -171,4 +171,3 @@ THIRD-PARTY-NOTICES.md     上游来源与依赖说明
 本项目保留原作者 **BaeTab** 的版权声明和 [MIT 许可证](LICENSE)。分发源码或程序时，请保留许可证及版权声明；第三方依赖仍适用各自的许可。完整来源说明见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 
 感谢 StickyPad 及其依赖项目的作者。本定制版不会通过上游的自动更新机制替换自身。
-

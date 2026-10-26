@@ -1,0 +1,18 @@
+<Window x:Class="StickyPad.Views.ReminderWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="到期提醒 · 纸间" Width="430" Height="400" MinWidth="360" MinHeight="250"
+ WindowStartupLocation="CenterScreen" Topmost="True" ShowActivated="False"
+ Background="#F7F8F3" FontFamily="Microsoft YaHei UI" FontSize="13">
+ <Grid Margin="24"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel Margin="0,0,0,18"><TextBlock Text="有件事情，别忘了。" FontSize="23" FontWeight="SemiBold" Foreground="#345B48"/><TextBlock Text="到期提醒 · 完成后就可以安心放下" Foreground="#87938B" Margin="0,8,0,0"/></StackPanel>
+  <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"><ItemsControl x:Name="ReminderItems"><ItemsControl.ItemTemplate><DataTemplate>
+   <Border Background="White" Padding="14" CornerRadius="8" Margin="0,0,0,10"><StackPanel>
+    <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="#345B48"/>
+    <TextBlock Text="{Binding DueLabel}" Foreground="#A86741" Margin="0,7,0,12"/>
+    <WrapPanel><Button Content="已完成" Tag="{Binding}" Click="CompleteClick" Padding="10,6" Margin="0,0,8,0"/><Button Content="10 分钟后提醒" Tag="{Binding}" Click="SnoozeClick" Padding="10,6"/><Button Content="知道了" Tag="{Binding}" Click="DismissClick" Padding="10,6" Margin="8,0,0,0"/></WrapPanel>
+   </StackPanel></Border>
+  </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+  <TextBlock Grid.Row="2" Text="关闭此窗口会确认本次提醒，待办仍保留。" Foreground="#87938B" FontSize="11" Margin="0,12,0,0"/>
+ </Grid>
+</Window>

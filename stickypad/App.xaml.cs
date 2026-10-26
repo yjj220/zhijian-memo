@@ -1,0 +1,296 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using StickyPad.Services;
+using StickyPad.Utils;
+using StickyPad.ViewModels;
+
+namespace StickyPad;
+
+public partial class App : Application
+{
+    private const string SingleInstanceMutexName = @"Local\ZhijianMemo.SingleInstance";
+
+    private IHost? _host;
+    private Mutex? _singleInstanceMutex;
+    private bool _ownsMutex;
+    private InstanceChannel? _instanceChannel;
+    private bool _exiting;
+    public bool IsExiting => _exiting;
+
+    protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+    {
+        _exiting = true;
+        _host?.Services.GetService<DeskTaskService>()?.Dispose();
+        base.OnSessionEnding(e);
+    }
+
+    public async void ExitAfterSaving()
+    {
+        if (_exiting) return;
+        _exiting = true;
+        try
+        {
+            foreach (var note in Current.Windows.OfType<Views.NoteWindow>().ToArray())
+                await note.ViewModel.FlushAsync();
+            _host?.Services.GetService<DeskTaskService>()?.Dispose();
+            if (_host?.Services.GetService<ISettingsService>() is { } settings) await settings.SaveAsync();
+            Shutdown();
+        }
+        catch (Exception ex)
+        {
+            _exiting = false;
+            MessageBox.Show("退出前保存失败：" + ex.Message, "纸间");
+        }
+    }
+
+    public static IServiceProvider Services =>
+        ((App)Current)._host?.Services
+        ?? throw new InvalidOperationException("Host not initialized.");
+
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        DispatcherUnhandledException += (_, args) =>
+        {
+            Log.Error(args.Exception, "Dispatcher unhandled exception");
+            args.Handled = true;
+        };
+        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+            Log.Error(args.ExceptionObject as Exception, "AppDomain unhandled exception");
+        TaskScheduler.UnobservedTaskException += (_, args) =>
+        {
+            Log.Error(args.Exception, "Unobserved task exception");
+            args.SetObserved();
+        };
+
+        // 커맨드라인 인자로 넘어온(더블클릭/'연결 프로그램'/드롭) 파일 경로 수집.
+        var startupFiles = ExtractFilePaths(e.Args);
+
+        _singleInstanceMutex = new Mutex(initiallyOwned: false, SingleInstanceMutexName, out _);
+        try
+        {
+            _ownsMutex = _singleInstanceMutex.WaitOne(TimeSpan.Zero, exitContext: false);
+        }
+        catch (AbandonedMutexException)
+        {
+            // Previous instance crashed without releasing — we now own the mutex, proceed.
+            _ownsMutex = true;
+        }
+
+        if (!_ownsMutex)
+        {
+            // 이미 다른 인스턴스가 실행 중 — 열려던 파일이 있으면 그 인스턴스로 넘기고 조용히 종료.
+            InstanceChannel.TrySend(startupFiles.Length > 0 ? startupFiles : ["--show-board"]);
+            Shutdown(0);
+            return;
+        }
+
+        // .md '연결 프로그램' 목록에 자기 자신을 등록(HKCU, 조용히 best-effort).
+        // File associations remain opt-in for this customized build.
+
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+        var dataRoot = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "ZhijianMemo");
+        // A separate location lets the desktop smoke tests exercise persistence safely.
+        dataRoot = Environment.GetEnvironmentVariable("ZHIJIAN_DATA_DIR") ?? dataRoot;
+        Directory.CreateDirectory(dataRoot);
+
+        var dbPath = Path.Combine(dataRoot, "notes.db");
+        var settingsPath = Path.Combine(dataRoot, "settings.json");
+        var logPath = Path.Combine(dataRoot, "logs", "app-.log");
+
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Debug()
+            .WriteTo.File(logPath, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7)
+            .CreateLogger();
+
+        _host = Host.CreateDefaultBuilder()
+            .UseSerilog()
+            .ConfigureServices(services =>
+            {
+                services.AddSingleton<INoteRepository>(sp =>
+                {
+                    var s = sp.GetRequiredService<ISettingsService>().Current;
+                    // 볼트 모드(옵트인): 폴더의 .md 집합으로 구동. 실패하면 LiteDB 로 안전 폴백.
+                    if (string.Equals(s.StorageMode, "vault", StringComparison.OrdinalIgnoreCase)
+                        && !string.IsNullOrWhiteSpace(s.VaultPath))
+                    {
+                        try
+                        {
+                            VaultBootstrap.EnsureSeeded(s.VaultPath, dbPath); // 최초 전환 시 LiteDB → 볼트 이관
+                            return new VaultRepository(s.VaultPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(ex, "Vault repository init failed; falling back to LiteDB");
+                        }
+                    }
+                    return new NoteRepository(dbPath);
+                });
+                services.AddSingleton<ISettingsService>(sp => new SettingsService(
+                    settingsPath, sp.GetRequiredService<ILogger<SettingsService>>()));
+                // 볼트 폴더 감시(볼트 모드 전용) — 협력자를 델리게이트로 조립해 순환 의존 없이 결합.
+                services.AddSingleton<IVaultWatcher>(sp =>
+                {
+                    var repo = sp.GetRequiredService<INoteRepository>() as VaultRepository;
+                    var wm = sp.GetRequiredService<IWindowManager>();
+                    return new VaultWatcherService(
+                        isRecentSelfWrite: f => repo?.IsRecentSelfWrite(f) ?? false,
+                        reloadAsync: () => repo?.ReloadWithDiffAsync() ?? Task.FromResult(VaultDiff.Empty),
+                        applyAsync: d => Current.Dispatcher.InvokeAsync(() => wm.ApplyVaultDiffAsync(d)).Task.Unwrap(),
+                        notify: (t, m) => sp.GetService<ITrayService>()?.ShowNotification(t, m),
+                        sp.GetRequiredService<ILogger<VaultWatcherService>>());
+                });
+                services.AddSingleton<IAutoStartService, AutoStartService>();
+                services.AddSingleton<IHotkeyService, HotkeyService>();
+                services.AddSingleton<IWindowManager, WindowManager>();
+                services.AddSingleton<IBackupService, BackupService>();
+                services.AddSingleton<IUpdateService, LocalBuildUpdateService>();
+                services.AddSingleton<ITrayService, TrayService>();
+                services.AddSingleton(_ => new DeskTaskStore(Path.Combine(dataRoot, "tasks.json")));
+                services.AddSingleton<DeskTaskService>();
+                services.AddTransient<NotesListViewModel>();
+                services.AddTransient<QuickSwitcherViewModel>();
+                services.AddTransient<SettingsViewModel>();
+            })
+            .Build();
+
+        await _host.StartAsync().ConfigureAwait(true);
+
+        try
+        {
+            LocalizationService.ApplyCulture(_host.Services.GetRequiredService<ISettingsService>().Current.Language);
+
+            var repo = _host.Services.GetRequiredService<INoteRepository>();
+            try
+            {
+                var purged = await repo
+                    .PurgeTrashedOlderThanAsync(DateTime.UtcNow.AddDays(-30))
+                    .ConfigureAwait(true);
+                if (purged > 0) Log.Information("Purged {Count} expired trashed notes", purged);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Failed to auto-purge expired trash");
+            }
+
+            var manager = _host.Services.GetRequiredService<IWindowManager>();
+            await manager.RestoreAllAsync().ConfigureAwait(true);
+
+            _host.Services.GetRequiredService<ITrayService>().Initialize();
+            _host.Services.GetRequiredService<DeskTaskService>().Start();
+
+            // 볼트 모드면 폴더 감시 시작(트레이 초기화 이후 — 알림 콜백이 준비된 뒤).
+            if (_host.Services.GetRequiredService<INoteRepository>() is VaultRepository
+                && _host.Services.GetRequiredService<ISettingsService>().Current.VaultPath is { Length: > 0 } vaultPath)
+            {
+                _host.Services.GetRequiredService<IVaultWatcher>().Start(vaultPath);
+            }
+
+            // 실행 중 다른 프로세스가 넘겨주는 파일 경로를 받아 여는 named-pipe 서버 시작.
+            // 파이프 입력은 같은 세션의 어떤 프로세스든 보낼 수 있으므로, 커맨드라인과 동일하게
+            // 존재·지원 형식·개수 제한을 거쳐(임의 파일 열기·창 폭탄 방지) 연다.
+            _instanceChannel = new InstanceChannel();
+            _instanceChannel.StartServer(paths =>
+            {
+                if (paths.Contains("--show-board"))
+                    Dispatcher.InvokeAsync(() => _host.Services.GetRequiredService<DeskTaskService>().OpenBoard());
+                var safe = ExtractFilePaths(paths);
+                if (safe.Length > 0) Dispatcher.InvokeAsync(() => OpenFiles(manager, safe));
+            });
+
+            // 이 실행이 파일 인자와 함께 시작됐다면(더블클릭 등) 지금 연다.
+            if (startupFiles.Length > 0) OpenFiles(manager, startupFiles);
+
+            var settings = _host.Services.GetRequiredService<ISettingsService>().Current;
+            var hotkeys = _host.Services.GetRequiredService<IHotkeyService>();
+            hotkeys.Configure(
+                newNoteHandler: () => manager.CreateAndShowNew(),
+                openNotesListHandler: manager.OpenNotesList);
+            hotkeys.Apply(settings.GlobalHotkeysEnabled, settings.NewNoteHotkey, settings.NotesListHotkey);
+
+            if (settings.AutoCheckForUpdates)
+            {
+                var updater = _host.Services.GetRequiredService<IUpdateService>();
+                _ = Task.Run(() => updater.CheckAsync(userInitiated: false));
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Startup failed");
+            MessageBox.Show($"纸间启动失败：\n{ex.Message}", "纸间",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown(1);
+        }
+    }
+
+    private const int MaxFilesToOpen = 20;
+
+    private static string[] ExtractFilePaths(string[] args)
+    {
+        if (args is null || args.Length == 0) return Array.Empty<string>();
+        var paths = new List<string>();
+        foreach (var arg in args)
+        {
+            if (string.IsNullOrWhiteSpace(arg)) continue;
+            var full = LinkedFile.Normalize(arg);
+            if (File.Exists(full) && LinkedFile.IsSupported(full)) paths.Add(full);
+        }
+        // 한 번에 여는 파일 수 제한 — 파이프로 수천 경로를 보내 창 폭탄(DoS)을 막는다.
+        return paths.Distinct(StringComparer.OrdinalIgnoreCase).Take(MaxFilesToOpen).ToArray();
+    }
+
+    private static async void OpenFiles(IWindowManager manager, string[] paths)
+    {
+        foreach (var path in paths)
+        {
+            try { await manager.OpenFileAsync(path).ConfigureAwait(true); }
+            catch (Exception ex) { Log.Error(ex, "Failed to open file {Path}", path); }
+        }
+    }
+
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        try
+        {
+            _instanceChannel?.Dispose();
+            if (_host is not null)
+            {
+                _host.Services.GetService<DeskTaskService>()?.Dispose();
+                _host.Services.GetService<IVaultWatcher>()?.Dispose();   // 트레이보다 먼저(알림 콜백 사용 중지)
+                _host.Services.GetService<IHotkeyService>()?.Unregister();
+                _host.Services.GetService<ITrayService>()?.Dispose();
+                if (_host.Services.GetService<ISettingsService>() is { } settings)
+                {
+                    await settings.SaveAsync().ConfigureAwait(true);
+                }
+                await _host.StopAsync(TimeSpan.FromSeconds(2)).ConfigureAwait(true);
+                if (_host.Services.GetService<INoteRepository>() is IDisposable repo) repo.Dispose();
+                _host.Dispose();
+            }
+        }
+        finally
+        {
+            if (_ownsMutex && _singleInstanceMutex is not null)
+            {
+                try { _singleInstanceMutex.ReleaseMutex(); } catch { /* nothing to do */ }
+                _singleInstanceMutex.Dispose();
+            }
+            await Log.CloseAndFlushAsync().ConfigureAwait(true);
+            base.OnExit(e);
+        }
+    }
+}
