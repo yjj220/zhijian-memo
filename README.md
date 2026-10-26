@@ -40,7 +40,13 @@
 
 ### 运行程序
 
-如果本仓库已提供 Release，可在仓库的 **Releases** 页面下载 Windows x64 发布包，解压后双击 **`ZhijianMemo.exe`**。
+**[下载 Windows 免安装版](https://github.com/yjj220/zhijian-memo/releases/latest)**
+
+1. 在发行版页面的 **Assets** 中下载 `ZhijianMemo-v2.4.2-win-x64.zip`。
+2. 将压缩包完整解压到固定文件夹。
+3. 双击 **`ZhijianMemo.exe`** 即可使用，不需要自己编译或安装 .NET。
+
+`Source code (zip)` / `Source code (tar.gz)` 是开发用源码，普通用户请选择上述 Windows 程序包。
 
 按本文方式构建的发布包自带 .NET 运行时，无需安装开发工具。直接下载仓库源码并不会获得可运行的程序，需要按下方步骤构建。
 
