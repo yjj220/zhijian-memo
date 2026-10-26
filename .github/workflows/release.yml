@@ -3,6 +3,11 @@ name: Release
 on:
   push:
     tags: [ 'v*' ]
+    branches: [ 'release/v*' ]
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -17,6 +22,18 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Resolve release version
+        id: version
+        shell: pwsh
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          $tag = $env:REF_NAME -replace '^release/', ''
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "Expected vMAJOR.MINOR.PATCH" }
+          [xml]$project = Get-Content stickypad/stickypad.csproj
+          if ($tag.Substring(1) -ne [string]$project.Project.PropertyGroup.Version) { throw "Tag and application version differ" }
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
       # 테스트가 통과해야만 릴리즈를 배포한다(실패 빌드가 태그로 나가는 것을 막음).
       - name: Test
         run: dotnet test stickypad.Tests/stickypad.Tests.csproj -c Release --verbosity normal
@@ -29,7 +46,7 @@ jobs:
             -p:EnableCompressionInSingleFile=true -o publish
           if ($LASTEXITCODE -ne 0) { throw "Publish failed" }
           Copy-Item LICENSE, THIRD-PARTY-NOTICES.md, 使用说明.md -Destination publish
-          $archive = "ZhijianMemo-${{ github.ref_name }}-win-x64.zip"
+          $archive = "ZhijianMemo-${{ steps.version.outputs.tag }}-win-x64.zip"
           Compress-Archive -LiteralPath publish/ZhijianMemo.exe, publish/LICENSE, publish/THIRD-PARTY-NOTICES.md, publish/使用说明.md -DestinationPath $archive
           $hash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLower()
           "$hash  $archive" | Out-File -Encoding ascii "$archive.sha256"
@@ -37,7 +54,23 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: 纸间 ${{ steps.version.outputs.tag }} · Windows 免安装版
+          fail_on_unmatched_files: true
+          body: |
+            Windows 10 / 11 x64 免安装版，自带 .NET 运行时，无需编译。
+
+            1. 下载下方的 `ZhijianMemo-${{ steps.version.outputs.tag }}-win-x64.zip`。
+            2. 将压缩包完整解压到固定文件夹。
+            3. 双击 `ZhijianMemo.exe` 即可使用。
+
+            支持桌面便签、待办清单、截止时间与提醒。压缩包包含使用说明、MIT 许可证与第三方来源声明。
+            Markdown / HTML 预览依赖 Microsoft Edge WebView2 Runtime。
+            `Source code` 是开发用源码；普通用户请选择上述 Windows ZIP 程序包。
+            本项目基于 BaeTab/StickyPad 二次开发，保留原作者版权及 MIT 许可证。
           files: |
             ZhijianMemo-*-win-x64.zip
             ZhijianMemo-*-win-x64.zip.sha256
           generate_release_notes: true
+
